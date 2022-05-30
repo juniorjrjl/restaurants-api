@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    command: bash start.sh
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/restaurants-api
+    environment:
+      DATABASE_URL: postgres://restaurants_api:restaurants_api@db/restaurants_api_development
+      NODE_ENV: development
+    depends_on:
+      - db
+    networks:
+      - api-sequelize
+  db:
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: restaurants_api_development
+      POSTGRES_USER: restaurants_api
+      POSTGRES_PASSWORD: restaurants_api
+    ports:
+      - "5432:5432"
+    networks:
+      - api-sequelize
+
+networks:
+  api-sequelize:
+    driver: bridge
+volumes:
+  db:
