@@ -30,6 +30,9 @@ const reviewsSerializer = (evaluation: evaluationDTO) =>{
 }
 
 export const restaurantReviewsSerializer = (evaluations: evaluationDTO[]) =>{
+    if (evaluations.length == 0){
+        return []
+    }
     const reviews = evaluations.map(e => reviewsSerializer(e))
     return {
         restaurantId: evaluations[0].restaurantId,
